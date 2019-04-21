@@ -8,3 +8,24 @@ before_install:
 script:
   # here -- --coverage will not keep the container hanging .. but will exit with exit code 0
   - docker run mayank/docker-react npm run test -- --coverage
+
+# use this setting to deploy on aws
+deploy:
+  # this provider configuration is OOTB provided by travis ci
+  provider: elasticbeanstalk
+  # this is part of the elastic url
+  region: "us-west-2"
+  # name of the application created in aws
+  app: "Docker-react"
+  # env name in aws
+  env: "DockerReact-env"
+  # copies the files from github and paste them in s3 bucket of aws
+  bucket_name: "elasticbeanstalk-us-west-2-036834467397"
+  # same as app name .. but will be listed in s3 storage
+  bucket_path: "Docker-react"
+  # only when master branch change happen deply in aws
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "AWS_SECRET_KEY"
